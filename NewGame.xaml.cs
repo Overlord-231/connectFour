@@ -23,5 +23,45 @@ namespace connectFour
         {
             InitializeComponent();
         }
+
+        private void B7x6_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B5x4_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B6x5_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B8x7_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B9x7_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B10x7_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void B8x8_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

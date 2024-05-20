@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:connectFour"
         mc:Ignorable="d"
-        Title="NewGame" Width="200" Height="350">
+        Title="New Game" Width="200" Height="350"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Margin="10">
             <StackPanel.Resources>
@@ -13,14 +14,14 @@
                     <Setter Property="Margin" Value="0, 15, 0, 0"></Setter>
                 </Style>
             </StackPanel.Resources>
-            <Button Content="7x6 (Standard)" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
-            <Button Content="5x4" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="100"/>
-            <Button Content="6x5" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
-            <Button Content="8x7" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
-            <Button Content="9x7" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
-            <Button Content="10x7" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
-            <Button Content="8x8" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
-            <Button Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
+            <Button Content="7x6 (Standard)" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="B7x6_Click"/>
+            <Button Content="5x4" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="100" Click="B5x4_Click"/>
+            <Button Content="6x5" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="B6x5_Click"/>
+            <Button Content="8x7" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="B8x7_Click"/>
+            <Button Content="9x7" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="B9x7_Click"/>
+            <Button Content="10x7" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="B10x7_Click"/>
+            <Button Content="8x8" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="B8x8_Click"/>
+            <Button Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Click="Cancel_Click"/>
         </StackPanel>
     </Grid>
 </Window>
