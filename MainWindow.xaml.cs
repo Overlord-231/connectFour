@@ -3,11 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Color = System.Drawing.Color;
 
 namespace connectFour
 {
@@ -16,7 +18,9 @@ namespace connectFour
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int[] BoardSize;
+        private int[] BoardSize;
+        private string[] Board;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,23 +32,22 @@ namespace connectFour
             newGame.ShowDialog();
             if (newGame.DialogResult == true)
             {
+                // Create child of the 'Board' grid
                 BoardSize = newGame.data;
+                BoardSize[1]++;
                 Grid DynamicBoard = new Grid();
-                //DynamicBoard.ShowGridLines = true;
-                Board.Children.Clear();
+                BoardGrid.Children.Clear();
 
                 // Define the Columns
-
-                SolidColorBrush circleOutline = new SolidColorBrush(Colors.Black);
-                Border cellBorder = new Border();
-                cellBorder.BorderBrush = circleOutline;
-                cellBorder.BorderThickness = new Thickness(1);
-
                 for (int i = 0; i < BoardSize[0]; i++)
                 {
                     ColumnDefinition colDef = new ColumnDefinition();
                     DynamicBoard.ColumnDefinitions.Add(colDef);
+                }
 
+                for (int i = 0; i < BoardSize[0]; i++)
+                {
+                    FirstRow(DynamicBoard, i);
                 }
 
                 // Define the Rows
@@ -53,29 +56,66 @@ namespace connectFour
                     RowDefinition rowDef = new RowDefinition();
                     DynamicBoard.RowDefinitions.Add(rowDef);
                 }
-
-
-
-
-                for (int row = 0; row < BoardSize[1]; row++)
+                
+                // Add the empty circles to the board with borders
+                for (int row = 1; row < BoardSize[1]; row++)
                 {
                     for (int col = 0; col < BoardSize[0]; col++)
                     {
-
-                        Ellipse circle = new Ellipse();
-                        circle.Height = 10;
-                        circle.Width = 10;
-                        circle.Stroke = circleOutline;
-                        circle.HorizontalAlignment = HorizontalAlignment.Center;
-                        circle.VerticalAlignment = VerticalAlignment.Center;
-                        Grid.SetRow(circle, row);
-                        Grid.SetColumn(circle, col);
-                        DynamicBoard.Children.Add(circle);
+                        CreateCircles(DynamicBoard, row, col);
                     }
                 }
 
-                Board.Children.Add(DynamicBoard);
+                BoardGrid.Children.Add(DynamicBoard);
             }
+        }
+
+        private void Reset_click(object sender, RoutedEventArgs e)
+        {
+            BoardGrid.Children.Clear();
+        }
+
+        private void CreateCircles(Grid grid, int row, int column)
+        {
+            Border border = new Border
+            {
+                BorderBrush = Brushes.Black,
+                BorderThickness = new Thickness(1),
+                Child = new Ellipse
+                {
+                    Height = 25,
+                    Width = 25,
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                }
+            };
+            Grid.SetRow(border, row);
+            Grid.SetColumn(border, column);
+            
+            grid.Children.Add(border);
+        }
+
+        private void FirstRow(Grid grid, int column)
+        {
+            Button button = new Button()
+            {
+                Height = 30,
+                Width = 30,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Content = "\u2193",
+            };
+            button.Click += Move_Click;
+            Grid.SetColumn(button, column);
+            grid.Children.Add(button);
+        }
+
+        private void Move_Click(Object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            int column = Grid.GetColumn(button);
+            
         }
     }
 }
