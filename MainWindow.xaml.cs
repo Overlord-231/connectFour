@@ -19,7 +19,9 @@ namespace connectFour
     public partial class MainWindow : Window
     {
         private int[] BoardSize;
-        private string[] Board;
+        private string[,] Board;
+        private bool red = true;
+        private bool yellow = false;
 
         public MainWindow()
         {
@@ -35,6 +37,7 @@ namespace connectFour
                 // Create child of the 'Board' grid
                 BoardSize = newGame.data;
                 BoardSize[1]++;
+                InitializeBoard(BoardSize);
                 Grid DynamicBoard = new Grid();
                 BoardGrid.Children.Clear();
 
@@ -116,6 +119,68 @@ namespace connectFour
             Button button = sender as Button;
             int column = Grid.GetColumn(button);
             
+            if (red)
+            {
+                for (int i = BoardSize[1]-1; i < BoardSize[1]; i--)
+                {
+                    if (Board[column, i] == "o")
+                    {
+                        Board[column, i] = "r";
+                        red = false;
+                        yellow = true;
+                        
+                        break;
+                    }
+                }
+
+                if (red)
+                {
+                    MessageBox.Show("Invalid move!");
+                }
+            }
+            else
+            {
+                for (int i = BoardSize[1]-1; i < BoardSize[1]; i--)
+                {
+                    if (Board[column, i] == "o")
+                    {
+                        Board[column, i] = "y";
+                        red = true;
+                        yellow = false;
+                        
+                        break;
+                    }
+                }
+
+                if (yellow)
+                {
+                    MessageBox.Show("Invalid move!");
+                }
+            }
+        }
+
+        private void CheckForWin()
+        {
+            
+        }
+
+        private void InitializeBoard(int[] BoardSize)
+        {
+            Board = new string[BoardSize[0], BoardSize[1]];
+            for (int i = 0; i < BoardSize[0]; i++)
+            {
+                for (int j = 0; j < BoardSize[1]; j++)
+                {
+                    Board[i, j] = "o";
+                }
+            }
+        }
+        
+        private UIElement FindChildAt(Grid grid, int row, int column)
+        {
+            return grid.Children
+                .Cast<UIElement>()
+                .FirstOrDefault(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == column);
         }
     }
 }
