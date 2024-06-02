@@ -22,6 +22,8 @@ namespace connectFour
         private string[,] Board;
         private bool red = true;
         private bool yellow = false;
+        private Grid DynamicBoard = new Grid();
+        private Grid StartingBoard = new Grid();
 
         public MainWindow()
         {
@@ -34,30 +36,31 @@ namespace connectFour
             newGame.ShowDialog();
             if (newGame.DialogResult == true)
             {
+                
                 // Create child of the 'Board' grid
                 BoardSize = newGame.data;
                 BoardSize[1]++;
                 InitializeBoard(BoardSize);
-                Grid DynamicBoard = new Grid();
                 BoardGrid.Children.Clear();
-
+                DynamicBoard = new Grid();
+                StartingBoard = new Grid();
                 // Define the Columns
                 for (int i = 0; i < BoardSize[0]; i++)
                 {
                     ColumnDefinition colDef = new ColumnDefinition();
-                    DynamicBoard.ColumnDefinitions.Add(colDef);
+                    StartingBoard.ColumnDefinitions.Add(colDef);
                 }
 
                 for (int i = 0; i < BoardSize[0]; i++)
                 {
-                    FirstRow(DynamicBoard, i);
+                    FirstRow(StartingBoard, i);
                 }
 
                 // Define the Rows
                 for (int i = 0; i < BoardSize[1]; i++)
                 {
                     RowDefinition rowDef = new RowDefinition();
-                    DynamicBoard.RowDefinitions.Add(rowDef);
+                    StartingBoard.RowDefinitions.Add(rowDef);
                 }
                 
                 // Add the empty circles to the board with borders
@@ -65,11 +68,12 @@ namespace connectFour
                 {
                     for (int col = 0; col < BoardSize[0]; col++)
                     {
-                        CreateCircles(DynamicBoard, row, col);
+                        CreateCircles(StartingBoard, row, col);
                     }
                 }
 
-                BoardGrid.Children.Add(DynamicBoard);
+                DynamicBoard = StartingBoard;
+                BoardGrid.Children.Add(StartingBoard);
             }
         }
 
@@ -121,7 +125,7 @@ namespace connectFour
             
             if (red)
             {
-                for (int i = BoardSize[1]-1; i < BoardSize[1]; i--)
+                for (int i = BoardSize[1]-1; i > 0; i--)
                 {
                     if (Board[column, i] == "o")
                     {
@@ -129,6 +133,15 @@ namespace connectFour
                         red = false;
                         yellow = true;
                         
+                        // Find the ellipse in the grid and change its color to red
+                        var border = FindChildAt(DynamicBoard, i, column) as Border;
+                        if (border != null && border.Child is Ellipse ellipse)
+                        {
+                            ellipse.Fill = new SolidColorBrush(Colors.Red);
+                        }
+
+                        BoardGrid.Children.Clear();
+                        BoardGrid.Children.Add(DynamicBoard);
                         break;
                     }
                 }
@@ -147,7 +160,15 @@ namespace connectFour
                         Board[column, i] = "y";
                         red = true;
                         yellow = false;
+
+                        var border = FindChildAt(DynamicBoard, i, column) as Border;
+                        if (border != null && border.Child is Ellipse ellipse)
+                        {
+                            ellipse.Fill = new SolidColorBrush(Colors.Yellow);
+                        }
                         
+                        BoardGrid.Children.Clear();
+                        BoardGrid.Children.Add(DynamicBoard);
                         break;
                     }
                 }
