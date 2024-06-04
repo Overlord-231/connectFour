@@ -61,6 +61,8 @@ namespace connectFour
             InitializeBoard(BoardSize);
             BoardGrid.Children.Add(StartingBoard);
             hasItEnded = false;
+            red = true;
+            yellow = false;
             redPair = 0;
             yellowPair = 0;
         }
@@ -139,7 +141,7 @@ namespace connectFour
                 }
                 else
                 {
-                    for (int i = BoardSize[1] - 1; i < BoardSize[1]; i--)
+                    for (int i = BoardSize[1] - 1; i > 0; i--)
                     {
                         if (Board[column, i] == "o")
                         {
@@ -156,6 +158,7 @@ namespace connectFour
                             StatusDisplay.Text = "Red's turn!";
                             BoardGrid.Children.Clear();
                             BoardGrid.Children.Add(DynamicBoard);
+                            CheckForWin();
                             break;
                         }
                     }
@@ -215,8 +218,8 @@ namespace connectFour
             {
                 for (int j = 3; j < BoardSize[1]; j++)
                 {
-                    if (Board[i, j] == "r" && Board[i - 1, j + 1] == "r" &&
-                        Board[i - 2, j + 2] == "r" && Board[i - 3, j + 3] == "r")
+                    if (Board[i, j] == "r" && Board[i - 1, j - 1] == "r" &&
+                        Board[i - 2, j - 2] == "r" && Board[i - 3, j - 3] == "r")
                     {
                         MessageBox.Show("Red wins!");
                         StatusDisplay.Text = "Red wins!";
@@ -229,8 +232,8 @@ namespace connectFour
             {
                 for (int j = 3; j < BoardSize[1]; j++)
                 {
-                    if (Board[i, j] == "y" && Board[i - 1, j + 1] == "y" &&
-                        Board[i - 2, j + 2] == "y" && Board[i - 3, j + 3] == "y")
+                    if (Board[i, j] == "y" && Board[i - 1, j - 1] == "y" &&
+                        Board[i - 2, j - 2] == "y" && Board[i - 3, j - 3] == "y")
                     {
                         MessageBox.Show("Yellow wins!");
                         StatusDisplay.Text = "Yellow wins!";
@@ -242,11 +245,11 @@ namespace connectFour
 
         private void CheckHorizontally()
         {
-            for (int col = 0; col < BoardSize[0]; col++)
+            for (int row = 0; row < BoardSize[1]; row++)
             {
-                for (int row = 1; row < BoardSize[1]; row++)
+                for (int col = 1; col < BoardSize[0]; col++)
                 {
-                    if (Board[row - 1, col] == "r" && Board[row, col] == "r")
+                    if (Board[col - 1, row] == "r" && Board[col, row] == "r")
                     {
                         redPair++;
                         if (redPair == 3)
@@ -263,9 +266,9 @@ namespace connectFour
                     }
                 }
 
-                for (int row = 1; row < BoardSize[1]; row++)
+                for (int col = 1; col < BoardSize[0]; col++)
                 {
-                    if (Board[row - 1, col] == "y" && Board[row, col] == "y")
+                    if (Board[col - 1, row ] == "y" && Board[col, row] == "y")
                     {
                         yellowPair++;
                         if (yellowPair == 3)
@@ -286,11 +289,11 @@ namespace connectFour
 
         private void CheckVertically()
         {
-            for (int row = 0; row < BoardSize[1]; row++)
+            for (int col = 0; col < BoardSize[0]; col++)
             {
-                for (int col = 1; col < BoardSize[0]; col++)
+                for (int row = 1; row < BoardSize[1]; row++)
                 {
-                    if (Board[row, col - 1] == "r" && Board[row, col] == "r")
+                    if (Board[col, row - 1] == "r" && Board[col, row] == "r")
                     {
                         redPair++;
                         if (redPair == 3)
@@ -307,9 +310,9 @@ namespace connectFour
                     }
                 }
 
-                for (int col = 1; col < BoardSize[0]; col++)
+                for (int row = 1; row < BoardSize[1]; row++)
                 {
-                    if (Board[row, col - 1] == "y" && Board[row, col] == "y")
+                    if (Board[col, row - 1] == "y" && Board[col, row] == "y")
                     {
                         yellowPair++;
                         if (yellowPair == 3)
